@@ -1,6 +1,7 @@
 package com.bytecodevelocity.service;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -36,11 +37,13 @@ public class FilteringController {
     }
 }
 
-//@JsonIgnoreProperties(value = {"panNumber"})
+//information to be sent in the response
+//@JsonIgnoreProperties(value = {"panNumber","userId"})
 @JsonFilter("UserDetails")
 class UserDetails {
     private int userId;
     private String userName;
+    //@JsonIgnore
     private String panNumber;
 
     public UserDetails(int userId, String userName, String panNumber) {

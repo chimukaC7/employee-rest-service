@@ -1,3 +1,8 @@
+GET -> retrieve details -> fetch employee details -> localhost:8080/employees
+POST -> insert -> insert employee details -> localhost:8080/employees
+PUT -> update -> update employee details -> localhost:8080/employees/{employeeId}
+DELETE -> delete -> delete employee details -> localhost:8080/employees/{employeeId}
+
 Section 1:
 ==========
 1. Create DTO and Controllers

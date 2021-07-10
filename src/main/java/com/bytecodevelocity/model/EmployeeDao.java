@@ -21,7 +21,7 @@ public class EmployeeDao {
     }
 
     public Employee getEmployeeById(int empId) {
-        return list.stream()
+        return list.stream()//java 8 list filter function
                 .filter(emp -> emp.getId() == empId)
                 .findAny()
                 .orElse(null);
@@ -35,12 +35,15 @@ public class EmployeeDao {
 
     public Employee deleteEmployee(int empId) {
         Iterator<Employee> iterator = list.iterator();
+
         while (iterator.hasNext()) {
             Employee emp = iterator.next();
+
             if (empId == emp.getId()) {
                 iterator.remove();
                 return emp;
             }
+
         }
         return null;
     }

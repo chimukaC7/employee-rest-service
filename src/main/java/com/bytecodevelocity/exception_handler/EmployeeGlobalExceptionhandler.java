@@ -16,25 +16,29 @@ import java.util.Date;
 @ControllerAdvice
 public class EmployeeGlobalExceptionhandler extends ResponseEntityExceptionHandler {
 
+    //handles the common exceptions
+    //implementation for handling all exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllException(Exception ex, WebRequest request){
-        EmployeeExceptionResponse exception = new EmployeeExceptionResponse(ex.getMessage(),
-                request.getDescription(false), new Date());
+        EmployeeExceptionResponse exception = new EmployeeExceptionResponse(ex.getMessage(),request.getDescription(false), new Date());
        return new ResponseEntity<Object>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    //implementation for handling specific exception
     @ExceptionHandler(EmployeeNotFound.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(Exception ex, WebRequest request){
-        EmployeeExceptionResponse exception = new EmployeeExceptionResponse(ex.getMessage(),
-                request.getDescription(false), new Date());
+        EmployeeExceptionResponse exception = new EmployeeExceptionResponse(ex.getMessage(),request.getDescription(false), new Date());
         return new ResponseEntity<Object>(exception, HttpStatus.NOT_FOUND);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
-        EmployeeExceptionResponse exception = new EmployeeExceptionResponse("Invalid Input",
-                ex.getBindingResult().toString(), new Date());
+
+        EmployeeExceptionResponse exception = new EmployeeExceptionResponse("Invalid Input",ex.getBindingResult().toString(), new Date());
+
         return new ResponseEntity<Object>(exception, HttpStatus.BAD_REQUEST);
     }
+
+
 }

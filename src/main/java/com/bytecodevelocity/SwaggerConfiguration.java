@@ -17,8 +17,7 @@ import java.util.Set;
 @Configuration
 public class SwaggerConfiguration {
 
-    public static final Contact SUPPORTED_CONTACTS = new Contact("Daniel", "http://www.bytecodevelocity.com",
-            "support@mail.com");
+    public static final Contact SUPPORTED_CONTACTS = new Contact("Daniel", "http://www.bytecodevelocity.com","support@mail.com");
 
     @Bean
     public Docket newApi(){
@@ -31,7 +30,8 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Employee Service")
+        return new ApiInfoBuilder()
+                .title("Employee Service")
                 .description("Employee ServiceWith Swagger Documentation")
                 .termsOfServiceUrl("http://www.bytecodevelocity.com?etc")
                 .contact(SUPPORTED_CONTACTS)

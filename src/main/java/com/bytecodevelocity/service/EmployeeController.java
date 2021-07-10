@@ -22,6 +22,7 @@ public class EmployeeController {
     @Autowired
     EmployeeDao service;
 
+    //@RequestMapping(method = RequestMethod.GET,path = "/welcome")
     @GetMapping("/employees")
     public List<Employee> getAll() {
         return service.getAllEmployees();
@@ -30,28 +31,35 @@ public class EmployeeController {
     @GetMapping("/employees/{empId}")
     public EntityModel<Employee> getEmployeeById(@PathVariable int empId){
         Employee employee = service.getEmployeeById(empId);
+
         if(null == employee)
             throw new EmployeeNotFound("Employee Not Found .");
-        EntityModel<Employee> model = EntityModel.of(employee);
+
+        //implementing HATEOS
+        EntityModel<Employee> employeeEntityModel = EntityModel.of(employee);
+
         Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAll()).withRel("all-employees");
-        model.add(link);
-        return model;
+        employeeEntityModel.add(link);
+        return employeeEntityModel;
     }
 
-    @PostMapping("/employees/user")
-    public ResponseEntity<Object> saveEmployee(@Valid @RequestBody Employee emp){
+    @PostMapping("/employees")
+    public ResponseEntity<Object> saveEmployee(@Valid @RequestBody Employee emp){//enabled the validation
         Employee newEmployee = service.saveEmployee(emp);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()//returning the current request
                 .path("{employeeId}")
                 .buildAndExpand(newEmployee.getId())
                 .toUri();
+
         return ResponseEntity.created(uri).build();
 
     }
 
-    @DeleteMapping("/employees/delete/{empId}")
+    @DeleteMapping("/employees/{empId}")
     public void deleteEmployee(@PathVariable int empId){
         Employee emp = service.deleteEmployee(empId);
+
         if(null == emp)
             throw new EmployeeNotFound("Employee Not Found .");
     }

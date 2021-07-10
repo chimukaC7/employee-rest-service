@@ -9,13 +9,16 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String department;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
 
     public Department() {
     }
+
     public Department(Long id, String department) {
         this.id = id;
         this.department = department;

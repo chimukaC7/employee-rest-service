@@ -33,36 +33,47 @@ public class EmployeeRepoController {
     @GetMapping("/jpa/employees/{empId}")
     public EntityModel<Employee> getEmployeeById(@PathVariable Long empId){
         Employee employee = employeeRepository.findById(empId).get();
+
         if(null == employee)
             throw new EmployeeNotFound("Employee Not Found .");
+
         EntityModel<Employee> model = EntityModel.of(employee);
+
         Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAll()).withRel("all-employees");
         model.add(link);
+
         return model;
     }
 
     @PostMapping("/jpa/employees")
     public ResponseEntity<Object> saveEmployee(@Valid @RequestBody Employee emp){
         Employee newEmployee = employeeRepository.save(emp);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
                 .path("{employeeId}")
                 .buildAndExpand(newEmployee.getId())
                 .toUri();
+
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/jpa/adddepartment/{empId}")
+    @PostMapping("/jpa/employees/{empId}/departments")
     public ResponseEntity<Object> saveEmployee(@PathVariable Long empId, @RequestBody Department department){
         Employee employee = employeeRepository.findById(empId).get();
+
         if(null == employee)
             throw new EmployeeNotFound("Employee Not Found .");
 
         department.setEmployee(employee);
         departmentRepository.save(department);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
                 .path("{empId}")
                 .buildAndExpand(employee.getId())
                 .toUri();
+
         return ResponseEntity.created(uri).build();
     }
 
