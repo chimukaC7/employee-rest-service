@@ -32,6 +32,7 @@ Actuator - The Monitoring tool
 
 http://localhost:8081/actuator
 http://localhost:8081/browser/index.html
+-search for actuator
 
 Security
 

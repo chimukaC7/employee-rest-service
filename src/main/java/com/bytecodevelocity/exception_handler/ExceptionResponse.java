@@ -2,11 +2,11 @@ package com.bytecodevelocity.exception_handler;
 
 import java.util.Date;
 
-public class EmployeeExceptionResponse {
+public class ExceptionResponse {
     private String errorMessage,description;
     private Date dateAndTime;
 
-    public EmployeeExceptionResponse(String errorMessage, String description, Date dateAndTime) {
+    public ExceptionResponse(String errorMessage, String description, Date dateAndTime) {
         this.errorMessage = errorMessage;
         this.description = description;
         this.dateAndTime = dateAndTime;

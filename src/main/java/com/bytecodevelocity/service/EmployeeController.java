@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
+//this controller will handle all the REST API methods
 @RestController
 public class EmployeeController {
 
@@ -29,25 +29,37 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{empId}")
+//    public Employee getEmployeeById(@PathVariable int empId){
+//        Employee employee = service.getEmployeeById(empId);
+//        if (employee == null)
+//            throw new EmployeeNotFound("Employee Not Found.");
+//        return employee;
+//    }
     public EntityModel<Employee> getEmployeeById(@PathVariable int empId){
         Employee employee = service.getEmployeeById(empId);
 
-        if(null == employee)
-            throw new EmployeeNotFound("Employee Not Found .");
+        if(employee == null)
+            throw new EmployeeNotFound("Employee Not Found.");
 
         //implementing HATEOS
         EntityModel<Employee> employeeEntityModel = EntityModel.of(employee);
 
         Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAll()).withRel("all-employees");
         employeeEntityModel.add(link);
+
         return employeeEntityModel;
     }
 
     @PostMapping("/employees")
+//    public void saveEmployee(@RequestBody Employee emp){
+//        service.saveEmployee(emp);
+//    }
+    //@Valid ensure that the request is valid(containing the right parameters if applicable)
     public ResponseEntity<Object> saveEmployee(@Valid @RequestBody Employee emp){//enabled the validation
         Employee newEmployee = service.saveEmployee(emp);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()//returning the current request
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()//returning the current request
                 .path("{employeeId}")
                 .buildAndExpand(newEmployee.getId())
                 .toUri();
@@ -60,7 +72,7 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable int empId){
         Employee emp = service.deleteEmployee(empId);
 
-        if(null == emp)
+        if(emp == null)
             throw new EmployeeNotFound("Employee Not Found .");
     }
 

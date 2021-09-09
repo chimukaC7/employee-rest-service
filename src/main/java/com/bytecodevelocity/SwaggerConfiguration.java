@@ -21,9 +21,10 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket newApi(){
-        Set produce= new HashSet<>(Arrays.asList("application/json","application/xml"));
-        Set consume= new HashSet<>(Arrays.asList("application/json","application/xml"));
-        return new Docket(DocumentationType.SWAGGER_2)
+        Set produce = new HashSet<>(Arrays.asList("application/json","application/xml"));
+        Set consume = new HashSet<>(Arrays.asList("application/json","application/xml"));
+
+        return new Docket(DocumentationType.SWAGGER_2)//type of documentation
                 .apiInfo(apiInfo())
                 .produces(produce)
                 .consumes(consume);

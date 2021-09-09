@@ -13,16 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+//implementing static filter for REST APIs
 @RestController
 public class FilteringController {
+
+//    @GetMapping("/filter1")
+//    public List<UserDetails> filter1() {
+//        List<UserDetails> details = UserDetails.getDetails();
+//        return details;
+//    }
 
     @GetMapping("/filter1")
     public MappingJacksonValue filter1() {
         List<UserDetails> details = UserDetails.getDetails();
+
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId","userName");
         FilterProvider filters = new SimpleFilterProvider().addFilter("UserDetails", filter);
+
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(details);
         mappingJacksonValue.setFilters(filters);
+
         return mappingJacksonValue;
     }
 
@@ -43,7 +53,7 @@ public class FilteringController {
 class UserDetails {
     private int userId;
     private String userName;
-    //@JsonIgnore
+    //@JsonIgnore (alternative)
     private String panNumber;
 
     public UserDetails(int userId, String userName, String panNumber) {
